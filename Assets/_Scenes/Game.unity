@@ -1385,11 +1385,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 20e4cf057c600f04eb0257bcbc7cfe25, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acd48174abab46a428507e360a4f2ae7, type: 3}
---- !u!4 &716134376 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6142030126272959842, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-  m_PrefabInstance: {fileID: 1110476169}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &727163779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1952,7 +1947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6137823500187652506, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000008800916
+      value: -0.000008801414
       objectReference: {fileID: 0}
     - target: {fileID: 6137823500187652506, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1971,36 +1966,8 @@ PrefabInstance:
       value: Player Ship
       objectReference: {fileID: 0}
     - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: model
-      value: 
-      objectReference: {fileID: 716134376}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: lookSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: rollSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: hoverSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: strafeSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: forwardSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: rollAcceleration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: forwardAcceleration
-      value: 3
+      propertyPath: modelRotateAngle
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}

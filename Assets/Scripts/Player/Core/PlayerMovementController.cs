@@ -9,21 +9,17 @@ namespace Player.Core
     {
         #region Variables
 
-        private static ILogger _logger = Debug.unityLogger;
-
         [SerializeField] private float forwardSpeed = 50f;
         [SerializeField] private float strafeSpeed = 20f;
         [SerializeField] private float hoverSpeed = 15f;
 
-        [SerializeField] private float lookSpeed = 90f;
-        private Vector2 lookInput, screenCenter, mouseDistance;
+        private Vector2 _lookInput, _screenCenter, _mouseDistance;
 
         [SerializeField] private float rollSpeed = 90f;
         [SerializeField] private float rollAcceleration = 3.5f;
         
-        private Rigidbody _rb;
         private Camera _camera;
-        private float currentForwardSpeed, currentStrafeSpeed, currentHoverSpeed, currentRollSpeed;
+        private float _currentForwardSpeed, _currentStrafeSpeed, _currentHoverSpeed, _currentRollSpeed;
         [SerializeField] private float forwardAcceleration = 10f;
         [SerializeField] private float strafeAcceleration = 2f;
         [SerializeField] private float hoverAcceleration = 2f;
@@ -31,8 +27,8 @@ namespace Player.Core
         [SerializeField] private Transform model;
         [SerializeField] private float modelRotateAngle = 50f;
         
-        private Vector2 input;
-        private float rollInput;
+        private Vector2 _input;
+        private float _rollInput;
         
         private float speedMultiplier = 1f;
         
@@ -40,14 +36,13 @@ namespace Player.Core
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody>();
             _camera = Camera.main;
         }
 
         private void Start()
         {
-            screenCenter.x = Screen.width * .5f;
-            screenCenter.y = Screen.height * .5f;
+            _screenCenter.x = Screen.width * .5f;
+            _screenCenter.y = Screen.height * .5f;
 
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -55,47 +50,50 @@ namespace Player.Core
         private void Update()
         {
             // Rotation Calculations & Applying new rotation values
-            currentRollSpeed = math.lerp(currentRollSpeed, rollInput, rollAcceleration * Time.deltaTime);
+            _currentRollSpeed = math.lerp(_currentRollSpeed, _rollInput, rollAcceleration * Time.deltaTime);
             
-            transform.Rotate(-mouseDistance.y * lookSpeed * Time.deltaTime, mouseDistance.x * lookSpeed * Time.deltaTime, currentRollSpeed * rollSpeed * Time.deltaTime, Space.Self);
+            // _camera.transform.Rotate(-_mouseDistance.y * lookSpeed * Time.deltaTime, _mouseDistance.x * lookSpeed * Time.deltaTime, _currentRollSpeed * rollSpeed * Time.deltaTime, Space.Self);
             
-            // Rotate Model
-            model.Rotate(0f, 0f, input.x * modelRotateAngle * Time.deltaTime);
+            // Model Rotation
+            model.Rotate(_input.y * modelRotateAngle * Time.deltaTime, 0f, _input.x * modelRotateAngle * Time.deltaTime);
+
+            // Camera Rotation
+            Vector3 moveCamTo = model.position - model.forward * 25f + Vector3.up * 10f;
+            _camera.transform.position = math.lerp(_camera.transform.position, moveCamTo, Time.deltaTime * 2f);
+            _camera.transform.LookAt(model.position + model.forward * 30f);
 
             // Movement Calculations & Applying new movement values
-            currentForwardSpeed = math.lerp(currentForwardSpeed, forwardSpeed * speedMultiplier,
+            _currentForwardSpeed = math.lerp(_currentForwardSpeed, forwardSpeed * speedMultiplier,
                 forwardAcceleration * Time.deltaTime);
-            currentHoverSpeed = math.lerp(currentHoverSpeed, input.y * hoverSpeed, hoverAcceleration * Time.deltaTime);
-            currentStrafeSpeed = math.lerp(currentStrafeSpeed, input.x * strafeSpeed, strafeAcceleration * Time.deltaTime);
-            
-            transform.position += (transform.right * (currentStrafeSpeed * Time.deltaTime)) + (transform.up * (currentHoverSpeed * Time.deltaTime)) + (transform.forward * (currentForwardSpeed * Time.deltaTime));
+            _currentHoverSpeed = math.lerp(_currentHoverSpeed, _input.y * hoverSpeed, hoverAcceleration * Time.deltaTime);
+            _currentStrafeSpeed = math.lerp(_currentStrafeSpeed, _input.x * strafeSpeed, strafeAcceleration * Time.deltaTime);
+
+            var modelTransform = model.transform;
+            modelTransform.position += (modelTransform.right * (_currentStrafeSpeed * Time.deltaTime)) + (modelTransform.up * (_currentHoverSpeed * Time.deltaTime)) + (modelTransform.forward * (_currentForwardSpeed * Time.deltaTime));
         }
 
         #region Input Methods
 
         public void OnMovement(InputAction.CallbackContext ctx)
         {
-            input = ctx.ReadValue<Vector2>();
-            _logger.Log(LogType.Log, $"Movement called, value: {input}");
+            _input = ctx.ReadValue<Vector2>();
         }
         
         public void OnCameraMovement(InputAction.CallbackContext ctx)
         {
             if (ctx.started) return;
             
-            lookInput = ctx.ReadValue<Vector2>();
-            _logger.Log(LogType.Log, $"Camera Movement Called, value: {lookInput}");
+            _lookInput = ctx.ReadValue<Vector2>();
 
-            mouseDistance.x = (lookInput.x - screenCenter.x) / screenCenter.y;
-            mouseDistance.y = (lookInput.y - screenCenter.y) / screenCenter.y;
+            _mouseDistance.x = (_lookInput.x - _screenCenter.x) / _screenCenter.y;
+            _mouseDistance.y = (_lookInput.y - _screenCenter.y) / _screenCenter.y;
 
-            mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1f);
+            _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
         }
 
         public void OnRollMovement(InputAction.CallbackContext ctx)
         {
-            rollInput = ctx.ReadValue<float>();
-            _logger.Log(LogType.Log, $"Camera Roll Called, value: {rollInput}");
+            _rollInput = ctx.ReadValue<float>();
         }
 
         #endregion
