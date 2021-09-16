@@ -9,26 +9,29 @@ namespace Player.Core
     {
         #region Variables
 
+        [Header("Base Speeds & Accelerations")]
         [SerializeField] private float forwardSpeed = 50f;
+        [SerializeField] private float forwardAcceleration = 10f;
+
+        [Space(5)]
         [SerializeField] private float strafeSpeed = 20f;
+        [SerializeField] private float strafeAcceleration = 2f;
+        
+        [Space(5)]
         [SerializeField] private float hoverSpeed = 15f;
+        [SerializeField] private float hoverAcceleration = 2f;
+
+        [Header("Model Data")]
+        [SerializeField] private Transform model;
+        [SerializeField] private float modelRotateAngle = 50f;
 
         private Vector2 _lookInput, _screenCenter, _mouseDistance;
 
-        [SerializeField] private float rollSpeed = 90f;
-        [SerializeField] private float rollAcceleration = 3.5f;
-        
         private Camera _camera;
         private float _currentForwardSpeed, _currentStrafeSpeed, _currentHoverSpeed, _currentRollSpeed;
-        [SerializeField] private float forwardAcceleration = 10f;
-        [SerializeField] private float strafeAcceleration = 2f;
-        [SerializeField] private float hoverAcceleration = 2f;
 
-        [SerializeField] private Transform model;
-        [SerializeField] private float modelRotateAngle = 50f;
-        
+
         private Vector2 _input;
-        private float _rollInput;
         
         private float speedMultiplier = 1f;
         
@@ -49,11 +52,6 @@ namespace Player.Core
 
         private void Update()
         {
-            // Rotation Calculations & Applying new rotation values
-            _currentRollSpeed = math.lerp(_currentRollSpeed, _rollInput, rollAcceleration * Time.deltaTime);
-            
-            // _camera.transform.Rotate(-_mouseDistance.y * lookSpeed * Time.deltaTime, _mouseDistance.x * lookSpeed * Time.deltaTime, _currentRollSpeed * rollSpeed * Time.deltaTime, Space.Self);
-            
             // Model Rotation
             model.Rotate(_input.y * modelRotateAngle * Time.deltaTime, 0f, _input.x * modelRotateAngle * Time.deltaTime);
 
@@ -68,6 +66,7 @@ namespace Player.Core
             _currentHoverSpeed = math.lerp(_currentHoverSpeed, _input.y * hoverSpeed, hoverAcceleration * Time.deltaTime);
             _currentStrafeSpeed = math.lerp(_currentStrafeSpeed, _input.x * strafeSpeed, strafeAcceleration * Time.deltaTime);
 
+            // Model Position Adjustment
             var modelTransform = model.transform;
             modelTransform.position += (modelTransform.right * (_currentStrafeSpeed * Time.deltaTime)) + (modelTransform.up * (_currentHoverSpeed * Time.deltaTime)) + (modelTransform.forward * (_currentForwardSpeed * Time.deltaTime));
         }
@@ -89,11 +88,6 @@ namespace Player.Core
             _mouseDistance.y = (_lookInput.y - _screenCenter.y) / _screenCenter.y;
 
             _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
-        }
-
-        public void OnRollMovement(InputAction.CallbackContext ctx)
-        {
-            _rollInput = ctx.ReadValue<float>();
         }
 
         #endregion

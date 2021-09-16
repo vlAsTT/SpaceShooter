@@ -1913,10 +1913,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1673445198819490925, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6137823500187652506, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1964,10 +1960,6 @@ PrefabInstance:
     - target: {fileID: 6137823500187652507, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
       propertyPath: m_Name
       value: Player Ship
-      objectReference: {fileID: 0}
-    - target: {fileID: 7819282990880771072, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}
-      propertyPath: modelRotateAngle
-      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21bc55c13d4b97b4db6e6facf0181cae, type: 3}

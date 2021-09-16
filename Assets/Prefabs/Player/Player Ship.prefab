@@ -211,22 +211,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 79501de6-f356-46d1-9ae9-ac631f06d213
     m_ActionName: Gameplay/Camera Movement[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7819282990880771072}
-        m_TargetAssemblyTypeName: Player.Core.PlayerMovementController, Assembly-CSharp
-        m_MethodName: OnRollMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 8187abd4-00f6-49af-b26c-65bc8d8032d0
-    m_ActionName: Gameplay/Roll[/Keyboard/q,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -247,14 +231,11 @@ MonoBehaviour:
   forwardSpeed: 100
   strafeSpeed: 100
   hoverSpeed: 80
-  lookSpeed: 360
-  rollSpeed: 360
-  rollAcceleration: 3
   forwardAcceleration: 3
   strafeAcceleration: 2
   hoverAcceleration: 2
   model: {fileID: 6142030126272959842}
-  modelRotateAngle: 50
+  modelRotateAngle: 110
 --- !u!1 &7230335921176451552
 GameObject:
   m_ObjectHideFlags: 0
