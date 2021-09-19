@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 
 namespace Core.Managers
@@ -6,6 +7,7 @@ namespace Core.Managers
     [System.Serializable]
     public struct PoolObject
     {
+        public PooledObjectType objectTag;
         public GameObject pooledObject;
         public int amountToPool;
         public bool isExpandable;
@@ -30,25 +32,31 @@ namespace Core.Managers
             foreach (var item in objects) {
                 for (int i = 0; i < item.amountToPool; i++) {
                     var obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
+                    var comp = obj.AddComponent<PooledObjectData>();
+                    comp.SetObjectTag(item.objectTag);
+                    
                     obj.SetActive(false);
                     _pooledObjects.Add(obj);
                 }
             }
         }
 
-        public GameObject GetPooledObject()
+        public GameObject GetPooledObject(PooledObjectType objectTag)
         {
             foreach (var item in _pooledObjects)
             {
-                if (!item.activeInHierarchy && item.CompareTag(tag)) {
+                if (!item.activeInHierarchy && item.GetComponent<PooledObjectData>().GetObjectTag() == objectTag) {
                     return item;
                 }
             }
             
             foreach (var item in objects) {
-                if (item.pooledObject.CompareTag(tag)) {
+                if (item.objectTag == objectTag) {
                     if (item.isExpandable) {
-                        GameObject obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
+                        var obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
+                        var comp = obj.AddComponent<PooledObjectData>();
+                        comp.SetObjectTag(item.objectTag);
+                        
                         obj.SetActive(false);
                         _pooledObjects.Add(obj);
                         return obj;
