@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 6137823500187652506}
   - component: {fileID: 6137823500187652485}
   - component: {fileID: 7819282990880771072}
+  - component: {fileID: 7728018371576372194}
   m_Layer: 0
   m_Name: Player Ship
   m_TagString: Untagged
@@ -197,8 +198,8 @@ MonoBehaviour:
     m_ActionName: Gameplay/Shoot[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7819282990880771072}
-        m_TargetAssemblyTypeName: Player.Core.PlayerMovementController, Assembly-CSharp
+      - m_Target: {fileID: 7728018371576372194}
+        m_TargetAssemblyTypeName: Player.Core.CameraController, Assembly-CSharp
         m_MethodName: OnCameraMovement
         m_Mode: 0
         m_Arguments:
@@ -229,13 +230,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardSpeed: 100
-  strafeSpeed: 100
-  hoverSpeed: 80
   forwardAcceleration: 3
+  strafeSpeed: 100
   strafeAcceleration: 2
+  hoverSpeed: 80
   hoverAcceleration: 2
   model: {fileID: 6142030126272959842}
   modelRotateAngle: 110
+--- !u!114 &7728018371576372194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137823500187652507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18ffb0613f544446bda2fdfd358e757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraXOffset: 25
+  cameraYOffset: 10
+  cameraAcceleration: 2
+  model: {fileID: 6142030126272959842}
 --- !u!1 &7230335921176451552
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +530,10 @@ PrefabInstance:
     - target: {fileID: 1304531895744914, guid: fb3ddbd3e49630145a54fd458b731d1f, type: 3}
       propertyPath: m_Name
       value: SM_Ship_Fighter_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304531895744914, guid: fb3ddbd3e49630145a54fd458b731d1f, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4840255410855932, guid: fb3ddbd3e49630145a54fd458b731d1f, type: 3}
       propertyPath: m_RootOrder
