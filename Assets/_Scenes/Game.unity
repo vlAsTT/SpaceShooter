@@ -2182,6 +2182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325439970}
   - component: {fileID: 1325439969}
+  - component: {fileID: 1325439972}
   - component: {fileID: 1325439971}
   m_Layer: 0
   m_Name: Game Controller
@@ -2202,9 +2203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d685cd53fdc0742aa199573615f7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyTypes: 00000000
-  SpawnRange: 300
-  SpawnCooldown: 5
+  objectSpawnableTypes: 00000000
+  spawnRange: 300
+  spawnCooldown: 5
+  spawnOriginOffset: 150
 --- !u!4 &1325439970
 Transform:
   m_ObjectHideFlags: 0
@@ -2239,27 +2241,27 @@ MonoBehaviour:
   - objectTag: 1
     pooledObject: {fileID: 8593878988313648364, guid: 06264a41c6a099d44b238e4e0cb6fd95, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 2
     pooledObject: {fileID: 5791004626421544008, guid: d01dc1a6b3d953b49ba453de3f448d83, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 3
     pooledObject: {fileID: 7712543010919919546, guid: 258d52664f108f546811a2ebc676dcac, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 4
     pooledObject: {fileID: 7669062095970859869, guid: 627c9db7e0c66e1409d96e00d6cfb513, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 5
     pooledObject: {fileID: 8688380058979168509, guid: 0f96ba1cce5ec8c48a2e2b32e5fe7512, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 6
     pooledObject: {fileID: 2651112702218369487, guid: 798432b339da3bf428b0ccaa85e2552c, type: 3}
     amountToPool: 3
-    isExpandable: 0
+    isExpandable: 1
   - objectTag: 7
     pooledObject: {fileID: 4049328936847028164, guid: 4b0722b5fe4113b4a8f83b5445911ede, type: 3}
     amountToPool: 3
@@ -2285,6 +2287,22 @@ MonoBehaviour:
     amountToPool: 3
     isExpandable: 0
   pooledObjectsParent: {fileID: 69834867}
+--- !u!114 &1325439972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325439968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d685cd53fdc0742aa199573615f7a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectSpawnableTypes: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000
+  spawnRange: 1200
+  spawnCooldown: 4
+  spawnOriginOffset: 450
 --- !u!1001 &1345396293
 PrefabInstance:
   m_ObjectHideFlags: 0
