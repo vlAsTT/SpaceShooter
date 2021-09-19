@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,13 +11,9 @@ namespace Core.Managers
     {
         #region Variables
 
-        [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
-        [SerializeField] private Transform enemiesParent;
+        [SerializeField] private List<PooledObjectType> enemyTypes;
         [SerializeField] private float SpawnRange = 300f;
         [SerializeField] private float SpawnCooldown = 5f;
-        [SerializeField][Range(1, 100)] private int maxShipsAlive = 15;
-
-        private List<GameObject> enemies = new List<GameObject>();
 
         private Transform _player;
         private bool _spawnEnabled = true;
@@ -25,24 +22,26 @@ namespace Core.Managers
 
         private void Start()
         {
+            if (enemyTypes.Count == 0)
+            {
+                Debug.unityLogger.Log(LogType.Assert, $"Please, add appropriate enemy types to {name}");
+            }
+            
             _player = GameObject.FindWithTag("Player").transform;
-            StartCoroutine(SpawnPlayer());
+            StartCoroutine(SpawnEnemy());
         }
 
         public void SetSpawnEnabled(bool status) => _spawnEnabled = status;
 
-        private IEnumerator SpawnPlayer()
+        private IEnumerator SpawnEnemy()
         {
             while (_spawnEnabled)
             {
-                if (maxShipsAlive > enemies.Count)
-                {
-                    // Calculate index of a prefab taken and spawn position
-                    int index = Random.Range(0, enemyPrefabs.Count);
-                    var spawnPosition = GetRandomPositionInSphere(_player.position, SpawnRange);
-                
-                    enemies.Add(Instantiate(enemyPrefabs[index], spawnPosition, Quaternion.identity, enemiesParent));
-                }
+                var spawnPosition = GetRandomPositionInSphere(_player.position, SpawnRange);
+
+                var enemyShip = ObjectPooler.Instance.GetPooledObject(enemyTypes[Random.Range(0, enemyTypes.Count)]);
+                enemyShip.SetActive(true);
+                enemyShip.transform.position = spawnPosition;
                 
                 yield return new WaitForSeconds(SpawnCooldown);
             }

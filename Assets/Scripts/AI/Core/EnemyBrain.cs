@@ -22,6 +22,7 @@ namespace AI.Core
 
         private Transform _player;
         private AIMovementController _aiMovementController;
+        private IEnumerator _currentCoroutine;
 
         private float _timeHandler;
         
@@ -32,17 +33,23 @@ namespace AI.Core
         private void Awake()
         {
             _player = GameObject.FindWithTag("Player").transform;
-        }
-
-        private void Start()
-        {
+            
             _aiMovementController = GetComponent<AIMovementController>();
             _aiMovementController.SetTarget(_player);
+        }
+
+        private void OnEnable()
+        {
+            // Stops previously running coroutine if it's an enemy that was already obtained from the object pooling
+            if (_currentCoroutine != null)
+            {
+                StopCoroutine(_currentCoroutine);
+            }
             
-            // We start from Idle and go to chase in dormant time seconds
             // Disable VFX & SFX
             _aiMovementController.SetSpeedMultiplier(0f);
-            StartCoroutine(PerformIdle());
+            _currentCoroutine = PerformIdle();
+            StartCoroutine(_currentCoroutine);
         }
 
         private IEnumerator PerformIdle()
@@ -61,7 +68,8 @@ namespace AI.Core
             _timeHandler = 0f;
             
             _state = EnemyState.Chase;
-            StartCoroutine(PerformChase());
+            _currentCoroutine = PerformChase();
+            StartCoroutine(_currentCoroutine);
         }
 
         private IEnumerator PerformChase()
@@ -75,7 +83,8 @@ namespace AI.Core
             }
 
             _state = EnemyState.Attack;
-            StartCoroutine(PerformAttack());
+            _currentCoroutine = PerformAttack();
+            StartCoroutine(_currentCoroutine);
         }
 
         private IEnumerator PerformAttack()
@@ -96,7 +105,8 @@ namespace AI.Core
             _timeHandler = 0f;
             
             _state = EnemyState.Idle;
-            StartCoroutine(PerformIdle());
+            _currentCoroutine = PerformIdle();
+            StartCoroutine(_currentCoroutine);
         }
     }
 }

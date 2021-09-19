@@ -24,10 +24,7 @@ namespace Core.Managers
         private void Awake()
         {
             Instance = this;
-        }
-
-        private void Start()
-        {
+            
             _pooledObjects = new List<GameObject>();
             foreach (var item in objects) {
                 for (int i = 0; i < item.amountToPool; i++) {

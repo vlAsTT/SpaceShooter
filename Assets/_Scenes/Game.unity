@@ -2202,12 +2202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d685cd53fdc0742aa199573615f7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 4652689561934638395, guid: 4ec1f8b890b18ef4c98a0cfb5c3d008b, type: 3}
-  enemiesParent: {fileID: 69834867}
+  enemyTypes: 00000000
   SpawnRange: 300
   SpawnCooldown: 5
-  maxShipsAlive: 15
 --- !u!4 &1325439970
 Transform:
   m_ObjectHideFlags: 0
