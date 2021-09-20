@@ -1,3 +1,4 @@
+using System;
 using Core.Movement;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,16 @@ namespace Player.Core
         [SerializeField] private Transform model;
         [SerializeField] private float modelRotateAngle = 50f;
 
+        private void OnEnable()
+        {
+            PlayerDelegates.onPlayerDeath += OnDeath;
+        }
+
+        private void OnDisable()
+        {
+            PlayerDelegates.onPlayerDeath -= OnDeath;
+        }
+
         protected override void Update()
         {
             base.Update();
@@ -21,10 +32,15 @@ namespace Player.Core
             var modelTransform = model.transform;
             modelTransform.position += (modelTransform.right * (CurrentStrafeSpeed * Time.deltaTime)) + (modelTransform.up * (CurrentHoverSpeed * Time.deltaTime)) + (modelTransform.forward * (CurrentForwardSpeed * Time.deltaTime));
         }
-        
+
         public void OnMovement(InputAction.CallbackContext ctx)
         {
             MovementDirections = ctx.ReadValue<Vector2>();
+        }
+
+        private void OnDeath()
+        {
+            
         }
     }
 }

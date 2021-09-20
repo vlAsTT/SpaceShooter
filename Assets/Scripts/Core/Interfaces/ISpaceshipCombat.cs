@@ -5,7 +5,5 @@ namespace Core.Interfaces
         float Damage { get; set; }
 
         void OnHit(float damage);
-
-        void Destroy();
     }
 }

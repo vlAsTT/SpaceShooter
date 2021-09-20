@@ -38,7 +38,7 @@ namespace Player.Core
             Cursor.lockState = CursorLockMode.Confined;
         }
         
-        private void Update()
+        private void LateUpdate()
         {
             Vector3 moveCamTo = model.position - model.forward * cameraXOffset + Vector3.up * cameraYOffset;
             _camera.transform.position = math.lerp(_camera.transform.position, moveCamTo, Time.deltaTime * cameraAcceleration);

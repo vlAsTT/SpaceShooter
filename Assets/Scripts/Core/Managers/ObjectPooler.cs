@@ -19,6 +19,7 @@ namespace Core.Managers
 
         [SerializeField] private List<PoolObject> objects;
         [SerializeField] private Transform pooledObjectsParent;
+        [SerializeField] private float destroyTime = 3f;
         private List<GameObject> _pooledObjects;
 
         private void Awake()
@@ -29,8 +30,9 @@ namespace Core.Managers
             foreach (var item in objects) {
                 for (int i = 0; i < item.amountToPool; i++) {
                     var obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
-                    var comp = obj.AddComponent<PooledObjectData>();
+                    var comp = obj.AddComponent<PooledObject>();
                     comp.SetObjectTag(item.objectTag);
+                    comp.SetDestroyTime(destroyTime);
                     
                     obj.SetActive(false);
                     _pooledObjects.Add(obj);
@@ -42,7 +44,7 @@ namespace Core.Managers
         {
             foreach (var item in _pooledObjects)
             {
-                if (!item.activeInHierarchy && item.GetComponent<PooledObjectData>().GetObjectTag() == objectTag) {
+                if (!item.activeInHierarchy && item.GetComponent<PooledObject>().GetObjectTag() == objectTag) {
                     return item;
                 }
             }
@@ -51,7 +53,7 @@ namespace Core.Managers
                 if (item.objectTag == objectTag) {
                     if (item.isExpandable) {
                         var obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
-                        var comp = obj.AddComponent<PooledObjectData>();
+                        var comp = obj.AddComponent<PooledObject>();
                         comp.SetObjectTag(item.objectTag);
                         
                         obj.SetActive(false);
