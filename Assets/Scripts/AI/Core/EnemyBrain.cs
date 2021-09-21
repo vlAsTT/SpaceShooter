@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AI.Combat;
 using AI.Movement;
 using Unity.Mathematics;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace AI.Core
 
         private Transform _player;
         private AIMovementController _aiMovementController;
+        private AICombatController _aiCombatController;
         private IEnumerator _currentCoroutine;
 
         private float _timeHandler;
@@ -83,6 +85,8 @@ namespace AI.Core
             }
 
             _state = EnemyState.Attack;
+            _aiCombatController.SetShootingStatus(true);
+            _aiCombatController.EnableShooting();
             _currentCoroutine = PerformAttack();
             StartCoroutine(_currentCoroutine);
         }
@@ -105,6 +109,7 @@ namespace AI.Core
             _timeHandler = 0f;
             
             _state = EnemyState.Idle;
+            _aiCombatController.SetShootingStatus(false);
             _currentCoroutine = PerformIdle();
             StartCoroutine(_currentCoroutine);
         }

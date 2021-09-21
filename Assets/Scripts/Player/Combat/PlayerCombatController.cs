@@ -13,7 +13,7 @@ namespace Player.Combat
         #region Variables
 
         private float _armor;
-        [SerializeField] private ParticleSystem explosionFX;
+        
         [SerializeField] private ParticleSystem hitFX;
 
         #endregion

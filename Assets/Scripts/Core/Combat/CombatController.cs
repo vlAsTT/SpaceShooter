@@ -8,7 +8,9 @@ namespace Core.Combat
     public class CombatController : MonoBehaviour
     {
         [SerializeField] private List<Transform> shipWeapons;
-        [SerializeField] private Transform lookPoint;
+        [SerializeField] protected Transform lookPoint;
+        
+        [SerializeField] protected ParticleSystem explosionFX;
         
         protected void Shoot()
         {
