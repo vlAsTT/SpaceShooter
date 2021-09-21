@@ -719,7 +719,7 @@ MonoBehaviour:
   m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 725982ffae692774ebca1df715b6805c, type: 2}
-  m_sharedMaterial: {fileID: -1533160635610438175, guid: 9d97252ee4209684c9577acce287d4b9, type: 2}
+  m_sharedMaterial: {fileID: 1991738249785995559, guid: 725982ffae692774ebca1df715b6805c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1247,8 +1247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -272}
-  m_SizeDelta: {x: 330, y: 50}
+  m_AnchoredPosition: {x: 0, y: -236}
+  m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &607474536
 MonoBehaviour:
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_text: 'Top Score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 725982ffae692774ebca1df715b6805c, type: 2}
-  m_sharedMaterial: {fileID: -1533160635610438175, guid: 9d97252ee4209684c9577acce287d4b9, type: 2}
+  m_sharedMaterial: {fileID: 1991738249785995559, guid: 725982ffae692774ebca1df715b6805c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2663,11 +2663,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_audioClip: {fileID: 8300000, guid: d7f33ebbd96f1f64e8ea988b75525156, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.3
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2943,7 +2943,7 @@ MonoBehaviour:
   m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 725982ffae692774ebca1df715b6805c, type: 2}
-  m_sharedMaterial: {fileID: -1533160635610438175, guid: 9d97252ee4209684c9577acce287d4b9, type: 2}
+  m_sharedMaterial: {fileID: 1991738249785995559, guid: 725982ffae692774ebca1df715b6805c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

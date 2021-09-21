@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Core.Managers;
 using Objects;
@@ -14,10 +15,10 @@ namespace Core.Combat
         [SerializeField] private List<Transform> shipWeapons;
         [Tooltip("A point in the world that weapons are heading towards to")]
         [SerializeField] protected Transform lookPoint;
-        [Tooltip("Visual FX that is used when ship is being destroyed")]
+        [Header("Effects")] [Tooltip("Visual FX that is used when ship is being destroyed")]
         [SerializeField] protected ParticleSystem explosionFX;
-        
-        protected void Shoot()
+
+        protected virtual void Shoot()
         {
             for (int i = 0; i < shipWeapons.Count; ++i)
             {

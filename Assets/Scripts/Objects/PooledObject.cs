@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Core.Managers;
 using Player.Combat;
@@ -41,7 +42,8 @@ namespace Objects
         private bool _destroyed = false;
         private ParticleSystem _explosionFX;
         private GameObject _player;
-
+        private ParticleSystem _vfx;
+        
         #endregion
 
         #region Methods
@@ -62,12 +64,31 @@ namespace Objects
         private void OnEnable()
         {
             _destroyed = false;
+            ClearVFX();
+        }
+
+        private void OnDisable()
+        {
+            ClearVFX();
+        }
+
+        // In case when the game is over to clear up all memory
+        private void OnDestroy()
+        {
+            ClearVFX();
         }
 
         #endregion
 
         #region Self Destroy
 
+        private void ClearVFX()
+        {
+            if (!_vfx) return;
+            
+            Destroy(_vfx);
+        }
+        
         public void StartSelfDestroy()
         {
             StartCoroutine(SelfDestroy());
@@ -75,12 +96,13 @@ namespace Objects
 
         private IEnumerator SelfDestroy()
         {
-            var vfx = Instantiate(_explosionFX, transform.position, Quaternion.identity);
+            var objTransform = transform;
+            _vfx = Instantiate(_explosionFX, objTransform.position, Quaternion.identity, objTransform);
             _destroyed = true;
 
-            yield return new WaitForSeconds(vfx.main.duration);
+            yield return new WaitForSeconds(_vfx.main.duration);
             
-            Destroy(vfx);
+            Destroy(_vfx);
             gameObject.SetActive(false);
         }
 

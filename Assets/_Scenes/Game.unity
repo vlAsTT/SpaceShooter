@@ -2218,10 +2218,9 @@ MonoBehaviour:
     isExpandable: 1
   - objectTag: 15
     pooledObject: {fileID: 8340187702568243337, guid: d9f5f8129880ff747a3ef7aab0c31805, type: 3}
-    amountToPool: 50
+    amountToPool: 100
     isExpandable: 1
   pooledObjectsParent: {fileID: 69834867}
-  destroyTime: 3
 --- !u!114 &1325439972
 MonoBehaviour:
   m_ObjectHideFlags: 0

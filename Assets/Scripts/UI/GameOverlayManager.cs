@@ -137,9 +137,6 @@ namespace UI
         {
             _audioSource.PlayOneShot(clickSound);
             
-            // Unfreezes time, so next time game continues fine
-            Time.timeScale = 1;
-            
             // Loads Main Menu Scene
             SceneManager.LoadSceneAsync("_Scenes/Menu/MainMenu");
         }

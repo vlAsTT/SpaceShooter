@@ -14,6 +14,7 @@ namespace AI.Core
 
         /// <summary>
         /// Current Enemy State
+        /// Not being used at the current moment, but might be useful on expansion of State Machine
         /// </summary>
         private EnemyState _state = EnemyState.Idle;
         private IEnumerator _currentCoroutine;

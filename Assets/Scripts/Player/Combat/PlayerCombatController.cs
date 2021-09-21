@@ -17,12 +17,30 @@ namespace Player.Combat
 
         [Tooltip("Visual FX that is being played when Player is being hit")]
         [SerializeField] private ParticleSystem hitFX;
+        [Tooltip("Sound FX that is being played on shot")]
+        [SerializeField] private AudioClip shotFX;
+
+        [Tooltip("Volume of Shot FX")] 
+        [SerializeField] [Range(0.01f, 1f)] private float shotVolume = 0.8f;
+
+        private AudioSource _audioSource;
         private float _armor;
 
         #endregion
 
         #region Methods
 
+        private void Start()
+        {
+            if (!Camera.main)
+            {
+                Debug.unityLogger.Log(LogType.Error, "Main Camera is missing");
+                return;
+            }
+            
+            _audioSource = Camera.main.GetComponent<AudioSource>();
+        }
+        
         public void SetArmor(float val) => _armor = val;
         
         public void ApplyHit()
@@ -37,7 +55,14 @@ namespace Player.Combat
                 StartCoroutine(SelfDestroy());
             }
         }
-        
+
+        protected override void Shoot()
+        {
+            base.Shoot();
+            
+            _audioSource.PlayOneShot(shotFX, shotVolume);
+        }
+
         /// <summary>
         /// Handles Shoot Input logic
         /// </summary>

@@ -64,9 +64,7 @@ namespace Core.Managers
 
         private void OnGameOver()
         {
-            Debug.unityLogger.Log(LogType.Log, $"Current Best Score is {SaveLoadManager.GetBestScore()}");
             SaveLoadManager.SaveBestScore(_score);
-            Debug.unityLogger.Log(LogType.Log, $"New Best Score is {SaveLoadManager.GetBestScore()}");
         }
 
         #endregion

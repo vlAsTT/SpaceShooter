@@ -1,5 +1,6 @@
 using System.Collections;
 using Core.Combat;
+using Player;
 using UnityEngine;
 
 namespace AI.Combat
@@ -42,7 +43,16 @@ namespace AI.Combat
         {
             lookPoint = GameObject.FindWithTag("Player").transform;
         }
-        
+
+        private void OnEnable()
+        {
+            _isShootingEnabled = true;
+            PlayerDelegates.onPlayerDeath += () =>
+            {
+                _isShootingEnabled = false;
+            };
+        }
+
         // Necessary to avoid undefined behavior with object pooling
         private void OnDisable()
         {
