@@ -1,36 +1,54 @@
-using System;
 using System.Collections;
 using AI.Combat;
 using AI.Movement;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace AI.Core
 {
+    /// <summary>
+    /// Controlling AI State Machine
+    /// </summary>
     public class EnemyBrain : MonoBehaviour
     {
         #region Variables
 
-        // reference to all controllers
+        /// <summary>
+        /// Current Enemy State
+        /// </summary>
+        private EnemyState _state = EnemyState.Idle;
+        private IEnumerator _currentCoroutine;
+        private float _timeHandler;
 
-        public EnemyState _state = EnemyState.Idle;
-
-        [SerializeField] private float AttackRange = 30f;
-        [SerializeField] private float AttackTime = 5f;
-        [SerializeField] private float DormantTime = 8f;
-        [SerializeField] private float ChaseSpeedMultiplier = 1.5f;
-        [SerializeField] private float SpeedGainTime = 3f;
+        #region References
 
         private Transform _player;
         private AIMovementController _aiMovementController;
         private AICombatController _aiCombatController;
-        private IEnumerator _currentCoroutine;
 
-        private float _timeHandler;
-        
         #endregion
-        
-        // movement related stuff - find a player
+
+        #region Movement / Combat
+
+        /// <summary>
+        /// Minimal Distance between Player and Enemy to switch to Attack State
+        /// </summary>
+        private float _attackRange;
+        /// <summary>
+        /// Duration of an Attack State
+        /// </summary>
+        private float _attackTime;
+        /// <summary>
+        /// Duration of an Idle State
+        /// </summary>
+        private float _dormantTime;
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        #region Unity Methods
 
         private void Awake()
         {
@@ -38,6 +56,18 @@ namespace AI.Core
             
             _aiMovementController = GetComponent<AIMovementController>();
             _aiMovementController.SetTarget(_player);
+
+            _aiCombatController = GetComponent<AICombatController>();
+        }
+
+        /// <summary>
+        /// Combat & Movement Variables Initialization
+        /// </summary>
+        private void Start()
+        {
+            _attackRange = _aiCombatController.GetAttackRange();
+            _attackTime = _aiCombatController.GetAttackTime();
+            _dormantTime = _aiMovementController.GetDormantTime();
         }
 
         private void OnEnable()
@@ -54,13 +84,15 @@ namespace AI.Core
             StartCoroutine(_currentCoroutine);
         }
 
+        #endregion
+
+        #region States
+        
         private IEnumerator PerformIdle()
         {
-            while (_timeHandler < DormantTime)
+            while (_timeHandler < _dormantTime)
             {
-                // do lerp till speed multiplier is 0
-                _aiMovementController.SetSpeedMultiplier(math.lerp(_aiMovementController.GetSpeedMultiplier(), 0f,
-                    Time.deltaTime * SpeedGainTime));
+                _aiMovementController.GainSpeed(_aiMovementController.GetSpeedMultiplier(), 0f);
 
                 _timeHandler += Time.deltaTime;
 
@@ -76,10 +108,9 @@ namespace AI.Core
 
         private IEnumerator PerformChase()
         {
-            while (Vector3.Distance(_player.position, transform.position) > AttackRange)
+            while (Vector3.Distance(_player.position, transform.position) > _attackRange)
             {
-                // Tell Movement Controller to Chase & Increase speed multiplier by X - lerping
-                _aiMovementController.SetSpeedMultiplier(math.lerp(1f, ChaseSpeedMultiplier, Time.deltaTime * SpeedGainTime));
+                _aiMovementController.GainSpeed(1f, _aiMovementController.GetChaseSpeedMultiplier());
                 
                 yield return null;
             }
@@ -93,14 +124,11 @@ namespace AI.Core
 
         private IEnumerator PerformAttack()
         {
-            // Enable Attack Mode in Combat Controller
-            // Combat Controller should handle the attack cooldown
-
-            while (_timeHandler < AttackTime)
+            while (_timeHandler < _attackTime)
             {
                 // Slows down multiplier to be optimal to keep distance between player and enemy
-                _aiMovementController.SetSpeedMultiplier(Mathf.Clamp(Vector3.Distance(_player.position, transform.position) * Time.deltaTime, 0f, ChaseSpeedMultiplier));
-                
+                _aiMovementController.SetSpeedMultiplier(Mathf.Clamp((Vector3.Distance(_player.position, transform.position) - _attackRange) * Time.deltaTime, 0f, _aiMovementController.GetSpeedMultiplier()));
+
                 _timeHandler += Time.deltaTime;
 
                 yield return null;
@@ -113,5 +141,9 @@ namespace AI.Core
             _currentCoroutine = PerformIdle();
             StartCoroutine(_currentCoroutine);
         }
+
+        #endregion
+
+        #endregion
     }
 }

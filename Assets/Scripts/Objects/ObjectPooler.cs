@@ -1,9 +1,11 @@
 using System.Collections.Generic;
-using Objects;
 using UnityEngine;
 
-namespace Core.Managers
+namespace Objects
 {
+    /// <summary>
+    /// Single Object that should be used by Object Pooling
+    /// </summary>
     [System.Serializable]
     public struct PoolObject
     {
@@ -13,14 +15,30 @@ namespace Core.Managers
         public bool isExpandable;
     }
     
+    /// <summary>
+    /// Class that handles Object Pooling and related actions
+    /// </summary>
     public class ObjectPooler : MonoBehaviour
     {
+        #region Variables
+
         public static ObjectPooler Instance;
 
+        /// <summary>
+        /// List of objects to pool
+        /// </summary>
         [SerializeField] private List<PoolObject> objects;
+
+        /// <summary>
+        /// Transform of an object where all pooled objects should be spawned
+        /// </summary>
         [SerializeField] private Transform pooledObjectsParent;
-        [SerializeField] private float destroyTime = 3f;
+        
         private List<GameObject> _pooledObjects;
+
+        #endregion
+
+        #region Methods
 
         private void Awake()
         {
@@ -32,7 +50,6 @@ namespace Core.Managers
                     var obj = (GameObject)Instantiate(item.pooledObject, pooledObjectsParent);
                     var comp = obj.AddComponent<PooledObject>();
                     comp.SetObjectTag(item.objectTag);
-                    comp.SetDestroyTime(destroyTime);
                     
                     obj.SetActive(false);
                     _pooledObjects.Add(obj);
@@ -65,5 +82,7 @@ namespace Core.Managers
             
             return null;
         }
+
+        #endregion
     }
 }

@@ -1,7 +1,10 @@
 using UnityEngine;
 
-namespace Core
+namespace Core.Utilities
 {
+    /// <summary>
+    /// Handles all save & load related operations
+    /// </summary>
     public static class SaveLoadManager
     {
         public static void SaveBestScore(int score)

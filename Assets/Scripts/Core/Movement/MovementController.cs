@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Core.Movement
 {
+    /// <summary>
+    /// Base class that holds common logic for the movement for both Enemy AI and Player
+    /// </summary>
     public abstract class MovementController : MonoBehaviour
     {
         #region Variables
@@ -23,31 +26,31 @@ namespace Core.Movement
 
         #endregion
 
-        #region Input Variables
-        
-        protected Vector2 MovementDirections;
-
-        #endregion
-
         #region Speed Variables
 
         protected float CurrentForwardSpeed, CurrentStrafeSpeed, CurrentHoverSpeed;
-        private float _speedMultiplier = 1f;
+        protected float SpeedMultiplier = 1f;
 
         #endregion
+        
+        protected Vector2 MovementDirections;
         
         #endregion
 
         #region Methods
 
-        public void SetSpeedMultiplier(float multiplier) => _speedMultiplier = multiplier;
+        #region Getters / Setters
 
-        public float GetSpeedMultiplier() => _speedMultiplier;
+        public void SetSpeedMultiplier(float multiplier) => SpeedMultiplier = multiplier;
+
+        public float GetSpeedMultiplier() => SpeedMultiplier;
+
+        #endregion
         
         protected virtual void Update()
         {
             // Movement Calculations & Applying new movement values
-            CurrentForwardSpeed = math.lerp(CurrentForwardSpeed, forwardSpeed * _speedMultiplier,
+            CurrentForwardSpeed = math.lerp(CurrentForwardSpeed, forwardSpeed * SpeedMultiplier,
                 forwardAcceleration * Time.deltaTime);
             CurrentHoverSpeed = math.lerp(CurrentHoverSpeed, MovementDirections.y * hoverSpeed, hoverAcceleration * Time.deltaTime);
             CurrentStrafeSpeed = math.lerp(CurrentStrafeSpeed, MovementDirections.x * strafeSpeed, strafeAcceleration * Time.deltaTime);

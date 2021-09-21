@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using Core.Managers;
-using Core.Movement;
 using Player.Combat;
 using Player.Core;
 using UI;
@@ -29,17 +27,27 @@ namespace Objects
         Bullet
     }
     
+    /// <summary>
+    /// Attached to every pooled object at creation
+    /// Stores the most important information of a pooled object as well as self-destroy logic
+    /// </summary>
     public class PooledObject : MonoBehaviour
     {
-        private PooledObjectType _objectTag;
-        private float _destroyTime;
-        private bool _destroyed = false;
-        
-        public PooledObjectType GetObjectTag() => _objectTag;
-        private ParticleSystem _explosionFX;
+        #region Variables
 
-        private GameObject _player;
+        public PooledObjectType GetObjectTag() => _objectTag;
         
+        private PooledObjectType _objectTag;
+        private bool _destroyed = false;
+        private ParticleSystem _explosionFX;
+        private GameObject _player;
+
+        #endregion
+
+        #region Methods
+
+        #region Unity Methods
+
         private void Awake()
         {
             _player = GameObject.FindWithTag("Player");
@@ -50,19 +58,19 @@ namespace Objects
                 Debug.unityLogger.Log(LogType.Assert, "Explosion VFX was not found");
             }
         }
+        
+        private void OnEnable()
+        {
+            _destroyed = false;
+        }
 
-        public void SetObjectTag(PooledObjectType objectTag) => _objectTag = objectTag;
+        #endregion
 
-        public void SetDestroyTime(float time) => _destroyTime = time;
+        #region Self Destroy
 
         public void StartSelfDestroy()
         {
             StartCoroutine(SelfDestroy());
-        }
-
-        private void OnEnable()
-        {
-            _destroyed = false;
         }
 
         private IEnumerator SelfDestroy()
@@ -70,11 +78,15 @@ namespace Objects
             var vfx = Instantiate(_explosionFX, transform.position, Quaternion.identity);
             _destroyed = true;
 
-            yield return new WaitForSeconds(_destroyTime);
+            yield return new WaitForSeconds(vfx.main.duration);
             
             Destroy(vfx);
             gameObject.SetActive(false);
         }
+
+        #endregion
+        
+        public void SetObjectTag(PooledObjectType objectTag) => _objectTag = objectTag;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -124,8 +136,6 @@ namespace Objects
 
                 if (component) // Pooled Object - Pooled Object
                 {
-                    Debug.unityLogger.Log(LogType.Log, $"Destroying {gameObject.name} and {component.gameObject.name}");
-
                     // If any of the objects is powerup - ignore it
                     if (_objectTag == PooledObjectType.Powerup_Armor ||
                         _objectTag == PooledObjectType.Powerup_Booster ||
@@ -149,5 +159,7 @@ namespace Objects
                 
             }
         }
+
+        #endregion
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerColllisionChecker : MonoBehaviour
+    public class PlayerCollisionChecker : MonoBehaviour
     {
         private void OnTriggerEnter(Collider other)
         {

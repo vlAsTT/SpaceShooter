@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Objects;
+using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,21 +12,34 @@ using Random = UnityEngine.Random;
  * clicks.
  * */
 
-namespace Core.Managers
+namespace Objects
 {
+    /// <summary>
+    /// Spawns objects of certain PooledObjectTypes according to parameters defined
+    /// </summary>
     public class ObjectSpawner : MonoBehaviour
     {
         #region Variables
-        
-        [SerializeField] private List<PooledObjectType> objectSpawnableTypes;
+
+        [Tooltip("All Possible Object Types that can be spawned")] [SerializeField]
+        private List<PooledObjectType> objectSpawnableTypes;
+        [Tooltip("Maximum Range from the Player that the object can be spawned")]
         [SerializeField] private float spawnRange = 300f;
+        
+        [Tooltip("Time between object spawns")]
         [SerializeField] private float spawnCooldown = 5f;
+        
+        [Tooltip("Minimal distance between new object and the Player")]
         [SerializeField] private float spawnOriginOffset = 150f;
 
         private Transform _player;
         private bool _spawnEnabled = true;
         
         #endregion
+
+        #region Methods
+
+        #region Unity Methods
 
         private void Start()
         {
@@ -38,7 +52,17 @@ namespace Core.Managers
             StartCoroutine(SpawnEnemy());
         }
 
-        public void SetSpawnEnabled(bool status) => _spawnEnabled = status;
+        private void OnEnable()
+        {
+            _spawnEnabled = true;
+            
+            PlayerDelegates.onPlayerDeath += () =>
+            {
+                _spawnEnabled = false;
+            };
+        }
+
+        #endregion
 
         private IEnumerator SpawnEnemy()
         {
@@ -62,5 +86,7 @@ namespace Core.Managers
 
             return new Vector3(x, y, z);
         }
+
+        #endregion
     }
 }

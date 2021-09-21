@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Core;
 using Core.Managers;
 using Objects;
 using Player;
@@ -11,6 +9,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// A structure that maps PooledObjectType to appropriate 
+    /// </summary>
     [System.Serializable]
     public struct PooledObjectImageUI
     {
@@ -26,21 +27,27 @@ namespace UI
     //     public TextMeshProUGUI text;
     // }
     
+    /// <summary>
+    /// Handles all UI operations of In-Game HUD at runtime
+    /// </summary>
     public class GameOverlayManager : MonoBehaviour
     {
         #region Variables / References
 
         public static GameOverlayManager Instance;
 
+        [Tooltip("Maps all pooled object types to appropriate Images elements in UI")]
         [SerializeField] private List<PooledObjectImageUI> pooledObjectImageUi = new List<PooledObjectImageUI>();
         // [SerializeField] private List<PooledObjectTextUI> pooledObjectTextUi = new List<PooledObjectTextUI>();
 
-        [Header("In-Game Overlay")]
+        [Header("In-Game Overlay")][Tooltip("Reference to In-Game HUD Object")]
         [SerializeField] private GameObject gameOverlay;
+        [Tooltip("Reference to In-Game Score Element")]
         [SerializeField] private TextMeshProUGUI scoreText;
 
-        [Header("Game Over HUD")] 
+        [Header("Game Over HUD")][Tooltip("Reference to Game Over HUD Object")]
         [SerializeField] private GameObject gameOverCanvas;
+        [Tooltip("Reference to Score Field in Game Over HUD")]
         [SerializeField] private TextMeshProUGUI finalScoreField;
         [Tooltip("Sound that is being played when Player clicks on the button")]
         [SerializeField] private AudioClip clickSound;
@@ -48,6 +55,10 @@ namespace UI
         private AudioSource _audioSource;
         
         #endregion
+
+        #region Methods
+
+        #region Unity Methods
 
         private void Awake()
         {
@@ -83,6 +94,8 @@ namespace UI
             PlayerDelegates.onPlayerDeath -= GameOver;
         }
 
+        #endregion
+
         public void SetScore(int score) => scoreText.text = score.ToString();
 
         public void SetPooledObjectUIStatus(PooledObjectType type, bool value)
@@ -106,6 +119,9 @@ namespace UI
             // }
         }
 
+        /// <summary>
+        /// Handles UI operations when Game is Over
+        /// </summary>
         private void GameOver()
         {
             gameOverlay.gameObject.SetActive(false);
@@ -114,6 +130,9 @@ namespace UI
             gameOverCanvas.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// UI Called by Back to Game Menu Button in Game Over HUD
+        /// </summary>
         public void OnGameOverClicked()
         {
             _audioSource.PlayOneShot(clickSound);
@@ -124,5 +143,7 @@ namespace UI
             // Loads Main Menu Scene
             SceneManager.LoadSceneAsync("_Scenes/Menu/MainMenu");
         }
+
+        #endregion
     }
 }

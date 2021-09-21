@@ -5,11 +5,16 @@ using UnityEngine;
 
 namespace Core.Combat
 {
-    public class CombatController : MonoBehaviour
+    /// <summary>
+    /// Base class that holds common logic for the combat for both Enemy AI and Player
+    /// </summary>
+    public abstract class CombatController : MonoBehaviour
     {
+        [Tooltip("Transforms of enemy weapons located on the ship")]
         [SerializeField] private List<Transform> shipWeapons;
+        [Tooltip("A point in the world that weapons are heading towards to")]
         [SerializeField] protected Transform lookPoint;
-        
+        [Tooltip("Visual FX that is used when ship is being destroyed")]
         [SerializeField] protected ParticleSystem explosionFX;
         
         protected void Shoot()

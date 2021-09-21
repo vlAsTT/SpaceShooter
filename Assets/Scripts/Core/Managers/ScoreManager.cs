@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using Core.Utilities;
 using Objects;
 using Player;
 using UI;
@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Core.Managers
 {
+    /// <summary>
+    /// Handles all score-related operations and updates
+    /// </summary>
     public class ScoreManager : MonoBehaviour
     {
         #region Variables
@@ -17,6 +20,10 @@ namespace Core.Managers
         private int _score;
 
         #endregion
+
+        #region Methods
+
+        #region Unity Methods
 
         private void Awake()
         {
@@ -39,6 +46,8 @@ namespace Core.Managers
             PlayerDelegates.onPlayerDeath -= OnGameOver;
         }
 
+        #endregion
+
         public void AddScore(PooledObjectType type)
         {
             foreach (var obj in scoresForObjects)
@@ -59,5 +68,7 @@ namespace Core.Managers
             SaveLoadManager.SaveBestScore(_score);
             Debug.unityLogger.Log(LogType.Log, $"New Best Score is {SaveLoadManager.GetBestScore()}");
         }
+
+        #endregion
     }
 }

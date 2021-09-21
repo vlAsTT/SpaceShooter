@@ -4,16 +4,20 @@ using UnityEngine.InputSystem;
 
 namespace Player.Core
 {
+    /// <summary>
+    /// Handles Camera controls, movement & rotation
+    /// </summary>
     public class CameraController : MonoBehaviour
     {
         #region Variables
 
-        [Header("Camera Information")] 
+        [Header("Camera Information")][Tooltip("Distance between player and camera on X axis")] 
         [SerializeField] private float cameraXOffset = 25f;
+        [Tooltip("Distance between player and camera on Y axis")]
         [SerializeField] private float cameraYOffset = 10f;
         [SerializeField] private float cameraAcceleration = 2f;
 
-        [Header("Model Data")]
+        [Header("Model Data")][Tooltip("Reference to Player's Ship Model Object")]
         [SerializeField] private Transform model;
         
         private Vector2 _lookInput, _screenCenter, _mouseDistance;
@@ -47,6 +51,10 @@ namespace Player.Core
 
         #endregion
         
+        /// <summary>
+        /// Handles Camera Input Movement logic
+        /// </summary>
+        /// <param name="ctx"></param>
         public void OnCameraMovement(InputAction.CallbackContext ctx)
         {
             if (ctx.started) return;

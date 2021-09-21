@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Core;
+using Core.Utilities;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Menu
+namespace UI
 {
     /// <summary>
     /// Responsible for handling all main menu logic & game scene loading
