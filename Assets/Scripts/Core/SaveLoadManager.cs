@@ -6,14 +6,14 @@ namespace Core
     {
         public static void SaveBestScore(int score)
         {
-            var currentBestScore = PlayerPrefs.GetInt("Score");
+            var currentBestScore = PlayerPrefs.GetInt("BestScore");
 
             if (currentBestScore < score)
             {
-                PlayerPrefs.SetInt("Score", score);
+                PlayerPrefs.SetInt("BestScore", score);
             }
         }
 
-        public static int GetBestScore() => PlayerPrefs.GetInt("Score");
+        public static int GetBestScore() => PlayerPrefs.GetInt("BestScore");
     }
 }

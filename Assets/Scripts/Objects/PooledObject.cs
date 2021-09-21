@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using Core.Managers;
+using Core.Movement;
+using Player.Combat;
 using Player.Core;
+using UI;
 using UnityEngine;
 
 namespace Objects
@@ -30,6 +33,7 @@ namespace Objects
     {
         private PooledObjectType _objectTag;
         private float _destroyTime;
+        private bool _destroyed = false;
         
         public PooledObjectType GetObjectTag() => _objectTag;
         private ParticleSystem _explosionFX;
@@ -55,14 +59,18 @@ namespace Objects
         {
             StartCoroutine(SelfDestroy());
         }
-        
+
+        private void OnEnable()
+        {
+            _destroyed = false;
+        }
+
         private IEnumerator SelfDestroy()
         {
             var vfx = Instantiate(_explosionFX, transform.position, Quaternion.identity);
+            _destroyed = true;
 
             yield return new WaitForSeconds(_destroyTime);
-
-            Debug.unityLogger.Log(LogType.Log, $"{gameObject.name} is destroyed");
             
             Destroy(vfx);
             gameObject.SetActive(false);
@@ -74,13 +82,22 @@ namespace Objects
             {
                 if (_objectTag == PooledObjectType.Powerup_Armor)
                 {
-                    // Add Armor in CombatController
+                    var combatController = _player.GetComponentInParent<PlayerCombatController>();
+
+                    if (!combatController)
+                    {
+                        Debug.unityLogger.Log(LogType.Log, $"Player : {_player.name} does not contain Player Combat Controller");
+                        return;
+                    }
+
+                    combatController.SetArmor(1f);
+                    GameOverlayManager.Instance.SetPooledObjectUIStatus(PooledObjectType.Powerup_Armor, true);
                     
                     gameObject.SetActive(false);
                 }
                 else if (_objectTag == PooledObjectType.Powerup_Booster)
                 {
-                    var movementController = _player.GetComponent<PlayerMovementController>();
+                    var movementController = _player.GetComponentInParent<PlayerMovementController>();
 
                     if (!movementController)
                     {
@@ -90,6 +107,8 @@ namespace Objects
                     
                     movementController.SetSpeedMultiplier(
                         PowerupManager.Instance.GetPowerupValue(PooledObjectType.Powerup_Booster));
+                    GameOverlayManager.Instance.SetPooledObjectUIStatus(PooledObjectType.Powerup_Booster, true);
+                    
                     gameObject.SetActive(false);
                 }
                 else
@@ -106,12 +125,19 @@ namespace Objects
                 if (component) // Pooled Object - Pooled Object
                 {
                     Debug.unityLogger.Log(LogType.Log, $"Destroying {gameObject.name} and {component.gameObject.name}");
-                    
+
                     // If any of the objects is powerup - ignore it
                     if (_objectTag == PooledObjectType.Powerup_Armor ||
                         _objectTag == PooledObjectType.Powerup_Booster ||
                         component._objectTag == PooledObjectType.Powerup_Armor ||
                         component._objectTag == PooledObjectType.Powerup_Booster) return;
+
+                    // If we have bullet vs Pooled Object (not powerup)
+                    if (_objectTag == PooledObjectType.Bullet && !component._destroyed) 
+                    {
+                        _destroyed = true;
+                        ScoreManager.Instance.AddScore(component._objectTag);
+                    }
                     
                     StartCoroutine(SelfDestroy());
                     component.StartSelfDestroy();

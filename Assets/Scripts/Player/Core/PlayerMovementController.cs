@@ -11,6 +11,8 @@ namespace Player.Core
         [SerializeField] private Transform model;
         [SerializeField] private float modelRotateAngle = 50f;
 
+        private bool _isGameRunning = true;
+
         private void OnEnable()
         {
             PlayerDelegates.onPlayerDeath += OnDeath;
@@ -23,6 +25,8 @@ namespace Player.Core
 
         protected override void Update()
         {
+            if (!_isGameRunning) return;
+            
             base.Update();
 
             // Model Rotation
@@ -40,7 +44,7 @@ namespace Player.Core
 
         private void OnDeath()
         {
-            
+            _isGameRunning = false;
         }
     }
 }
